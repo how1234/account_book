@@ -1,6 +1,7 @@
 export const LIST_VIEW = "list"
 export const CHART_VIEW = "chart"
-
+export const TYPE_INCOME = "income"
+export const TYPE_OUTCOME = "outcome"
 export const padMonth = (n) => {
     return n<10 ? '0'+n : n;
 }
@@ -16,4 +17,11 @@ export const range = (size,startAt=0) => {
 export const activeDropdownItem = (selectedItem,listItem) => {
     return selectedItem === listItem?  "dropdown-item active":  "dropdown-item"
 
+}
+export const parse2YearAndMonth = (str) => {
+    const date = str ? new Date(str) : new Date();
+    return {
+        year:date.getFullYear(),
+        month:date.getMonth() + 1
+    }
 }
