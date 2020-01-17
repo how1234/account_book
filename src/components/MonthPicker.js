@@ -11,6 +11,20 @@ class MonthPicker extends React.Component{
             selectedMonth:this.props.month
         }
     }
+    componentDidMount() {
+        document.addEventListener('click',this.handleClick,false)
+    }
+    componentWillUnmount(){
+        document.removeEventListener('click',this.handleClick)
+    }
+    handleClick=(event)=>{
+        if(this.node.contains(event.target)){
+            return;
+        }
+        this.setState({
+            isOpen:false
+        })
+    }
     toggleDropdown =(event) =>{
         event.preventDefault();
         this.setState({
@@ -41,16 +55,17 @@ class MonthPicker extends React.Component{
       
 
         return (
-            <div className="dropdown month-picker-component">
+            <div className="dropdown month-picker-component" ref={ (ref) => {this.node = ref}}>
                 <h4>Choose month</h4>
                 <button className="btn btn-lg btn-secondary dropdown-toggle"
-                onClick={this.toggleDropdown}>
-                    {`${year}/${padMonth(month)} `}
+                onClick={this.toggleDropdown}
+                >
+                    {`${year}/${padMonth(month)}`}
                 </button>   
                 {isOpen && 
-                    <div className="dropdown-menu" style={{display:'block'}}> 
+                    <div className="dropdown-menu" style={{display:'block',margin:'auto',width:"50%",float:"none",position:"relative"}}> 
                         <div className="row">
-                            <div className="col border-right"> 
+                            <div className="col border-right years-range"> 
                                 {yearRange.map( (yearNumber,index) => (
                                     <a key={index} 
                                     href="#"
@@ -62,7 +77,7 @@ class MonthPicker extends React.Component{
                           
                             </div>
 
-                            <div className="col ">  
+                            <div className="col months-range">  
                                 {monthRange.map( (monthNumber,index) => (
                                     <a key={index} 
                                     href="#"
@@ -70,7 +85,7 @@ class MonthPicker extends React.Component{
                                     className={activeDropdownItem(month,monthNumber)}>
                                         {monthNumber}
                                     </a>
-                                ))}     
+                                ))}    
                             </div>
                         </div>
                     </div>

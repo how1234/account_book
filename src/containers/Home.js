@@ -9,7 +9,7 @@ import MonthPicker from '../components/MonthPicker'
 import CreateBtn from '../components/CreateBtn';
 
 
-const items = [
+export const items = [
     {
       "id":1,
       "title":"travel in Sydney",
@@ -34,7 +34,7 @@ const items = [
     }
   ]
   
-  const categories = {
+ export const categories = {
     "1":{ 
         "id":"1",
         "name":"Travel",

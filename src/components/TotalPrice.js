@@ -7,11 +7,11 @@ const TotalPrice = ({income,outcome}) => {
     return (
         <div className="row">
             <div className="col">
-                <h5>Income: <span>{income}</span></h5>
+                <h5 className="income">Income: <span>{income}</span></h5>
             </div>
 
             <div className="col">
-                <h5>Outcome: <span>{outcome}</span></h5>
+                <h5 className="outcome">Outcome: <span>{outcome}</span></h5>
             </div>
         </div>
     )
