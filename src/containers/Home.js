@@ -1,5 +1,6 @@
 import React from 'react'
 import logo from '../logo.svg'
+import Ionicon from 'react-ionicons'
 
 import PriceList from '../components/PriceList'
 import ViewTab from '../components/ViewTab';
@@ -7,6 +8,7 @@ import TotalPrice from '../components/TotalPrice'
 import {LIST_VIEW,CHART_VIEW,TYPE_INCOME,TYPE_OUTCOME,parse2YearAndMonth,padMonth} from '../ultilities'
 import MonthPicker from '../components/MonthPicker'
 import CreateBtn from '../components/CreateBtn';
+import {Tabs,Tab} from '../components/Tab'
 
 
 export const items = [
@@ -38,7 +40,7 @@ export const items = [
     "1":{ 
         "id":"1",
         "name":"Travel",
-        "type":"out come行·行·x",
+        "type":"outcome",
         "iconName":"ios-plane" 
     },
     "2":{
@@ -59,18 +61,23 @@ export const items = [
     "cid":2
 
 }
+
+    const tabsList = [
+        LIST_VIEW,
+        CHART_VIEW
+    ]
   class Home extends React.Component{
       constructor(props){
           super(props)
           this.state={
             items,
             currentDate:parse2YearAndMonth(),
-            tabView:LIST_VIEW
+            tabView:tabsList[0]
           }
       }
-      changeView = (view) =>{
+      changeView = (index) =>{
         this.setState({
-            tabView:view
+            tabView:tabsList[index]
         })
       }
       changeDate = (year,month) =>{
@@ -152,9 +159,27 @@ export const items = [
 
                     <div className="container-area py-3 px-3">
 
-                        <ViewTab
-                            activeTab={tabView}
-                            onTabChange={this.changeView}/>  
+                        
+                    <Tabs activeIndex={0} onTabChange={this.changeView}>
+                            <Tab>
+                                <Ionicon 
+                                className="rounded-circle mr-2" 
+                                fontSize="25px"
+                                color={'#007bff'}
+                                icon='ios-paper'
+                                />
+                                List
+                            </Tab>
+                            <Tab>
+                                <Ionicon 
+                                className="rounded-circle mr-2" 
+                                fontSize="25px"
+                                color={'#007bff'}
+                                icon='ios-pie'
+                                />
+                                Chart
+                            </Tab>
+                    </Tabs>
                         <CreateBtn onClick={this.createItem}></CreateBtn>    
 
                         {tabView ===LIST_VIEW && 
