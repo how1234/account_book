@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import { mount } from 'enzyme'
 import MonthPicker from '../MonthPicker'
 
@@ -57,5 +58,29 @@ describe('test MonthPicker component',()=>{
           wrapper.find('.months-range .dropdown-item').first().simulate('click')
           expect(wrapper.state('isOpen')).toEqual(false)
           expect(props.onChange).toHaveBeenCalledWith(2015,1)
+      })
+
+      it('after the dropdown is shown, click the document should close the dropdown', ()=>{
+          let eventMap = {}
+          document.addEventListener = jest.fn((event,cb)=>{
+              eventMap[event] = cb;
+          })
+        const wrapper = mount(<MonthPicker {...props}/>) // Reload the month picker
+        wrapper.find('.dropdown-toggle').simulate('click')
+        expect(wrapper.state('isOpen')).toEqual(true)
+        expect(wrapper.find('.dropdown-menu').length).toEqual(1)
+
+        eventMap.click({
+            target:ReactDOM.findDOMNode(wrapper.instance())
+        })
+
+        expect(wrapper.state('isOpen')).toEqual(true)
+
+
+        eventMap.click({
+            target:document
+        })
+
+        expect(wrapper.state('isOpen')).toEqual(false)
       })
 })

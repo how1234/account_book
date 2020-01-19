@@ -38,7 +38,7 @@ export const items = [
     "1":{ 
         "id":"1",
         "name":"Travel",
-        "type":"out come",
+        "type":"out come行·行·x",
         "iconName":"ios-plane" 
     },
     "2":{
@@ -51,8 +51,8 @@ export const items = [
 
   }
 
-  const newItem = {
-    "id":3,
+  export const newItem = {
+    "id":4,
     "title":"travel in Sydney",
     "price":500,
     "date":"2020-01-10",
@@ -164,7 +164,7 @@ export const items = [
                         ></PriceList>} 
 
                         {tabView ===CHART_VIEW && 
-                        <h1>Here is for chart</h1>} 
+                        <h1 className="chart-title">Here is for chart</h1>} 
                         
                     </div>
 
