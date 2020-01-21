@@ -33,3 +33,16 @@ export const isValidDate = (dateString) => {
     if(Number.isNaN(d.getTime())) return false;
     return d.toISOString().slice(0,10)===dateString
 }
+export const flattenArray = (arr) => {
+    return arr.reduce((prev,curr) => {
+        prev[curr.id] = curr
+        return prev
+    },{})
+}
+
+export const ID = () => {
+    // Math.random should be unique because of its seeding algorithm.
+    // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+    // after the decimal.
+    return '_' + Math.random().toString(36).substr(2, 9);
+  }

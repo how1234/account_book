@@ -58,9 +58,10 @@ class PriceForm extends React.Component{
     }
     render() {
         const {title,price,date} = this.props.item
+   
         return( 
             
-            <form onSubmit={(event) => {this.submitForm(event)}}>
+            <form onSubmit={(event) => {this.submitForm(event)}} noValidate>
                 <div className="form-group">
                     <label htmlFor="title">Title</label>
                     <input id="title" 

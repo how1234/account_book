@@ -47,7 +47,7 @@ export const testCategories = [
     {
       "title": "buy stuff for kitten",
       "price": 100,
-      "date": "2018-08-15",
+      "date": "2020-01-15",
       "monthCategory": "2018-8",
       "id": "_kly1klf4g",
       "cid": "1",
@@ -56,7 +56,7 @@ export const testCategories = [
     {
       "title": "Salary",
       "price": 20000,
-      "date": "2020-01",
+      "date": "2020-01-15",
       "monthCategory": "2020-01",
       "id": "_bd16bjeen",
       "cid": "2",
@@ -65,7 +65,7 @@ export const testCategories = [
     {
       "title": "Have food",
       "price": 300,
-      "date": "2020-01",
+      "date": "2020-01-15",
       "monthCategory": "2020-01",
       "id": "_jjfice21k",
       "cid": "3",
@@ -74,7 +74,7 @@ export const testCategories = [
     {
       "title": "Investement income",
       "price": 1000,
-      "date": "2020-01",
+      "date": "2020-01-15",
       "monthCategory": "2020-1",
       "id": "_1fg1wme63",
       "cid": "11",
