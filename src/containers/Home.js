@@ -15,7 +15,7 @@ import CreateBtn from '../components/CreateBtn';
 import {Tabs,Tab} from '../components/Tab'
 import {testCategories,testItems} from '../testData'
 import WithContext from '../WithContext'
-
+import Loader from '../components/Loader'
 
 
     const tabsList = [
@@ -26,20 +26,20 @@ import WithContext from '../WithContext'
       constructor(props){
           super(props)
           this.state={
-            items:[],
-            currentDate:parse2YearAndMonth(),
             tabView:tabsList[0]
           }
       }
+      componentDidMount() {
+        this.props.actions.getInitialData()
+      }
+      
       changeView = (index) =>{
         this.setState({
             tabView:tabsList[index]
         })
       }
       changeDate = (year,month) =>{
-          this.setState({
-              currentDate:{year,month}
-          })
+          this.props.actions.selectNewMonth(year,month)
       }
       editItem = (modifiedItem) =>{
         this.props.history.push(`/edit/${modifiedItem.id}`)
@@ -54,15 +54,13 @@ import WithContext from '../WithContext'
       }
       render() {
           const {data} = this.props
-          const {items,categories} = data
-          const {currentDate,tabView} = this.state
-          console.log(items)
-          console.log(categories)
+          const {items,categories,currentDate,isLoading} = data
+          const {tabView} = this.state
+          console.log(this.props)
+       
           const itemsWithCategory = Object.keys(items).map(id=>{
               items[id].category = categories[items[id].cid]
               return items[id]
-          }).filter( item => {
-              return (item.date.includes(`${currentDate.year}-${padMonth(currentDate.month)}`))
           })
           console.log(itemsWithCategory)
           let totalIncome = 0,totalOutcome = 0;
@@ -79,69 +77,75 @@ import WithContext from '../WithContext'
           
           return(
            
-                    <React.Fragment>
-                        <header className="App-header pb-5">
-                            <div className="row mb-5 justify-content-center">
-                                <img src={logo} className="App-logo" alt="logo" />
-                            </div>
-                                <div className="row">
-                                    <div className="col">
-                                        <MonthPicker 
-                                            year={currentDate.year} 
-                                            month={currentDate.month} 
-                                            onChange={this.changeDate}/>
-                                    </div>
-
-                                    <div className="col">
-                                        <TotalPrice 
-                                        income={totalIncome}
-                                        outcome={totalOutcome}/>
-
-                            
-                                    </div>
-
+                <React.Fragment>
+                    <header className="App-header pb-5">
+                        <div className="row mb-5 justify-content-center">
+                            <img src={logo} className="App-logo" alt="logo" />
+                        </div>
+                            <div className="row">
+                                <div className="col">
+                                    <MonthPicker 
+                                        year={currentDate.year} 
+                                        month={currentDate.month} 
+                                        onChange={this.changeDate}/>
                                 </div>
-                            
-                            </header>
 
-                            <div className="container-area py-3 px-3">
+                                <div className="col">
+                                    <TotalPrice 
+                                    income={totalIncome}
+                                    outcome={totalOutcome}/>
 
-                                
-                            <Tabs activeIndex={0} onTabChange={this.changeView}>
-                                    <Tab>
-                                        <Ionicon 
-                                        className="rounded-circle mr-2" 
-                                        fontSize="25px"
-                                        color={'#007bff'}
-                                        icon='ios-paper'
-                                        />
-                                        List
-                                    </Tab>
-                                    <Tab>
-                                        <Ionicon 
-                                        className="rounded-circle mr-2" 
-                                        fontSize="25px"
-                                        color={'#007bff'}
-                                        icon='ios-pie'
-                                        />
-                                        Chart
-                                    </Tab>
-                            </Tabs>
-                                <CreateBtn onClick={this.createItem}></CreateBtn>    
+                        
+                                </div>
 
-                                {tabView ===LIST_VIEW && 
-                                <PriceList items={itemsWithCategory}
-                                onEditItem={this.editItem}
-                                onDeleteItem={this.deleteItem}
-                                ></PriceList>} 
-
-                                {tabView ===CHART_VIEW && 
-                                <h1 className="chart-title">Here is for chart</h1>} 
-                                
                             </div>
-                            <div>
-                            </div>
-                    </React.Fragment>
+                        
+                        </header>
+
+                        <div className="container-area py-3 px-3">
+                        {isLoading && <Loader/>}
+                        {!isLoading && 
+                          <React.Fragment>
+                        <Tabs activeIndex={0} onTabChange={this.changeView}>
+                                <Tab>
+                                    <Ionicon 
+                                    className="rounded-circle mr-2" 
+                                    fontSize="25px"
+                                    color={'#007bff'}
+                                    icon='ios-paper'
+                                    />
+                                    List
+                                </Tab>
+                                <Tab>
+                                    <Ionicon 
+                                    className="rounded-circle mr-2" 
+                                    fontSize="25px"
+                                    color={'#007bff'}
+                                    icon='ios-pie'
+                                    />
+                                    Chart
+                                </Tab>
+                        </Tabs>
+                            <CreateBtn onClick={this.createItem}></CreateBtn>    
+
+                            {tabView ===LIST_VIEW && 
+                            <PriceList items={itemsWithCategory}
+                            onEditItem={this.editItem}
+                            onDeleteItem={this.deleteItem}
+                            ></PriceList>} 
+
+                            {tabView ===CHART_VIEW && 
+                            <h1 className="chart-title">Here is for chart</h1>} 
+                            </React.Fragment>
+                        }
+                        </div>
+                        
+                        <div>
+                        </div>
+
+                        
+                        
+                </React.Fragment>
                
           )
       }

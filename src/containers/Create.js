@@ -8,7 +8,7 @@ import WithContext from '../WithContext'
 import {withRouter} from 'react-router-dom'
 import {AppContext} from '../App'
 
-const tabsText = [TYPE_OUTCOME,TYPE_INCOME]
+const tabsText = [TYPE_INCOME,TYPE_OUTCOME]
 
 class Create extends React.Component {
     constructor(props){
@@ -21,6 +21,16 @@ class Create extends React.Component {
             validation:true
         }
     }
+    componentDidMount() {
+        const {id} = this.props.match.params
+        this.props.actions.getEditData(id).then(data => {
+            const {editItem,categories} = data 
+            this.setState({
+                selectedTab : (id && editItem) ? categories[editItem.cid].type: TYPE_OUTCOME,
+                selectedCategory:(id && editItem)? categories[editItem.cid]  : null
+            })
+        })
+    }
     formSubmit = (data,isEditMode) => {
 
         if(!this.state.selectedCategory){
@@ -30,11 +40,15 @@ class Create extends React.Component {
             return
         }
         if(!isEditMode) {
-            this.props.actions.createItem(data,this.state.selectedCategory.id)
+            this.props.actions.createItem(data,this.state.selectedCategory.id).then( ()=>{
+                this.props.history.push('/')
+            })
         }else{
-            this.props.actions.updateItem(data,this.state.selectedCategory.id)
+            this.props.actions.updateItem(data,this.state.selectedCategory.id).then( ()=>{
+                this.props.history.push('/')
+            })
         }
-        this.props.history.push('/')
+      
     }
     cancelSubmit = () => {
         this.props.history.push('/')
@@ -54,7 +68,7 @@ class Create extends React.Component {
         const {items,categories} = data
         const {id} = this.props.match.params
         const editItem = (id && items[id]) ? items[id] : {}
-        const {selectedTab,validation} = this.state
+        const {selectedTab,validation,selectedCategory} = this.state
         const filteredCategories = Object.keys(categories).filter(id=> categories[id].type === selectedTab)
         .map(id =>categories[id]) 
         const tabIndex = tabsText.findIndex(text => text === selectedTab)
@@ -67,7 +81,7 @@ class Create extends React.Component {
                 </Tabs>
                 <CategorySelector categories={filteredCategories} 
                 onSelectCategory={this.selectCategory}
-                selectedCategory={this.state.selectedCategory} />
+                selectedCategory={selectedCategory} />
                 <PriceForm 
                     onFormSubmit = {this.formSubmit}
                     onCancelSubmit = {this.cancelSubmit}

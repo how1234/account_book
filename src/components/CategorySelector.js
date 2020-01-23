@@ -7,28 +7,22 @@ import PropTypes from 'prop-types'
 class CategorySelector extends React.Component{
     constructor(props){
         super(props)
-        this.state={
-            selectedCategoryId : props.selectedCategory && props.selectedCategory.id
-        }
+        
     }
     static propTypes = {
         categories:PropTypes.array.isRequired,
         onSelectCategory:PropTypes.func.isRequired
     }
-    static defaultProps = { 
-        categories:[]
-    }
+ 
     changeSelectedCategory = (event,category) =>{
         event.preventDefault();
-        this.setState({
-            selectedCategoryId:category.id
-        })
         this.props.onSelectCategory(category)
     
     }
     render(){
-        const {categories} = this.props;
-        const {selectedCategoryId} = this.state
+        const {categories,selectedCategory} = this.props;
+        const selectedCategoryId = selectedCategory && selectedCategory.id
+   
         return(
             <div className="category-selector">
                 <div className="row">
