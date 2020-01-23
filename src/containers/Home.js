@@ -9,20 +9,40 @@ import {withRouter} from 'react-router-dom'
 import PriceList from '../components/PriceList'
 
 import TotalPrice from '../components/TotalPrice'
-import {LIST_VIEW,CHART_VIEW,TYPE_INCOME,TYPE_OUTCOME,parse2YearAndMonth,padMonth} from '../ultilities'
+import {LIST_VIEW,CHART_VIEW,TYPE_INCOME,TYPE_OUTCOME,parse2YearAndMonth,padMonth,COLORS} from '../ultilities'
 import MonthPicker from '../components/MonthPicker'
 import CreateBtn from '../components/CreateBtn';
 import {Tabs,Tab} from '../components/Tab'
 import {testCategories,testItems} from '../testData'
-import WithContext from '../WithContext'
+import {withContext} from '../WithContext'
 import Loader from '../components/Loader'
+import PieChart from '../components/PieChart'
 
 
     const tabsList = [
         LIST_VIEW,
         CHART_VIEW
     ]
-  class Home extends React.Component{
+
+const generateChartDataByCategory = (items,type=TYPE_OUTCOME) => {
+    let categoryMap = {}
+    items.filter(item => item.category.type === type).forEach(item => {
+        if(categoryMap[item.cid]){
+            categoryMap[item.cid].value += (item.price*1)
+            categoryMap[item.cid].items.push(item.id)
+        }else{
+            categoryMap[item.cid] = {
+                name:item.category.name,
+                value:item.price * 1,
+                items:[item.id]
+            }
+        }
+    })
+    return Object.keys(categoryMap).map(mapKey => {
+        return {...categoryMap[mapKey]}
+    })
+}
+export class Home extends React.Component{
       constructor(props){
           super(props)
           this.state={
@@ -56,12 +76,15 @@ import Loader from '../components/Loader'
           const {data} = this.props
           const {items,categories,currentDate,isLoading} = data
           const {tabView} = this.state
+         
         
-       
           const itemsWithCategory = Object.keys(items).map(id=>{
               items[id].category = categories[items[id].cid]
               return items[id]
           })
+          const chartOutcomeDataByCategory = generateChartDataByCategory(itemsWithCategory,TYPE_OUTCOME)
+          const chartIncomeDataByCategory = generateChartDataByCategory(itemsWithCategory,TYPE_INCOME)
+         
 
           let totalIncome = 0,totalOutcome = 0;
 
@@ -135,7 +158,10 @@ import Loader from '../components/Loader'
                             ></PriceList>} 
 
                             {tabView ===CHART_VIEW && 
-                            <h1 className="chart-title">Here is for chart</h1>} 
+                            <React.Fragment>
+                                <PieChart title="Expense" categoryData={chartOutcomeDataByCategory} />
+                                <PieChart title="Income" categoryData={chartIncomeDataByCategory}/>
+                            </React.Fragment>} 
                             </React.Fragment>
                         }
                         </div>
@@ -151,4 +177,4 @@ import Loader from '../components/Loader'
       }
   }
 
-  export default withRouter(WithContext(Home))
+  export default withRouter(withContext(Home))

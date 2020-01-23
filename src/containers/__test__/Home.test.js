@@ -1,6 +1,6 @@
 import React from 'react'
 import { mount } from 'enzyme'
-import Home, { items,newItem } from '../Home'
+import {Home,items,newItem } from '../Home'
 
 
 import PriceList from '../../components/PriceList'

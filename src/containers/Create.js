@@ -1,25 +1,32 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import CategorySelector from '../components/CategorySelector'
 import {Tabs,Tab} from '../components/Tab'
 import {testCategories} from '../testData'
 import {TYPE_INCOME,TYPE_OUTCOME} from '../ultilities'
 import PriceForm from '../components/PriceForm'
-import WithContext from '../WithContext'
+import {withContext} from '../WithContext'
 import {withRouter} from 'react-router-dom'
 import {AppContext} from '../App'
 
 const tabsText = [TYPE_INCOME,TYPE_OUTCOME]
 
-class Create extends React.Component {
+export class CreatePage extends React.Component {
     constructor(props){
         super(props)
         const {id} = props.match.params
         const {categories,items} = props.data
         this.state = {
-            selectedTab : (id && items[id]) ? categories[items[id].cid].type: TYPE_OUTCOME,
+            selectedTab : (id && items[id]) ? categories[items[id].cid].type: TYPE_INCOME,
             selectedCategory:(id && items[id])? categories[items[id].cid]  : null,
             validation:true
         }
+    }
+
+    static propTypes = {
+        data:PropTypes.object.isRequired,
+        actions:PropTypes.object.isRequired,
+    
     }
     componentDidMount() {
         const {id} = this.props.match.params
@@ -96,4 +103,4 @@ class Create extends React.Component {
     }
 }
 
-export default withRouter(WithContext(Create))
+export default withRouter(withContext(CreatePage))

@@ -3,8 +3,7 @@ import './App.css';
 import {BrowserRouter as Router,Route,Link} from 'react-router-dom'
 
 import axios from 'axios'
-
-import Home, { categories } from './containers/Home';
+import Home from './containers/Home';
 import Create from './containers/Create';
 
 import {flattenArray,ID, parse2YearAndMonth} from './ultilities'

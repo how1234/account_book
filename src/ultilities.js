@@ -46,3 +46,14 @@ export const ID = () => {
     // after the decimal.
     return '_' + Math.random().toString(36).substr(2, 9);
   }
+
+
+export const COLORS = {
+    blue:'#347eff',
+    deepBlue:'#61dafb',
+    green:'#28a745',
+    red:'#dc3535',
+    grey:'#555',
+    lightGray:'#efefef',
+    white:'#fff'
+}
