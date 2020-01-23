@@ -8,7 +8,7 @@ import PriceForm from '../components/PriceForm'
 import {withContext} from '../WithContext'
 import {withRouter} from 'react-router-dom'
 import {AppContext} from '../App'
-
+import Loader from '../components/Loader';
 const tabsText = [TYPE_INCOME,TYPE_OUTCOME]
 
 export class CreatePage extends React.Component {
@@ -82,6 +82,9 @@ export class CreatePage extends React.Component {
         return(
             
             <div className="create-page py-3 px3 rounded mt-3" style={{background:'#fff'}}>
+                { data.isLoading &&
+                    <Loader />
+                }
                 <Tabs activeIndex={tabIndex} onTabChange={this.tabChange} >
                     <Tab>Income</Tab>
                     <Tab>Outcome</Tab>
