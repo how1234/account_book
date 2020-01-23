@@ -56,13 +56,13 @@ import Loader from '../components/Loader'
           const {data} = this.props
           const {items,categories,currentDate,isLoading} = data
           const {tabView} = this.state
-          console.log(this.props)
+        
        
           const itemsWithCategory = Object.keys(items).map(id=>{
               items[id].category = categories[items[id].cid]
               return items[id]
           })
-          console.log(itemsWithCategory)
+
           let totalIncome = 0,totalOutcome = 0;
 
           itemsWithCategory.forEach( (item) => {
