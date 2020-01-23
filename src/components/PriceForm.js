@@ -82,7 +82,7 @@ class PriceForm extends React.Component{
                         <input id="price" 
                         type="text" 
                         className="form-control" 
-                        placeholder="please input the title"
+                        placeholder="please input the price"
                         defaultValue={price}
                         ref = {(input) => {this.priceInput = input}}></input>
                     </div>

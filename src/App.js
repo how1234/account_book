@@ -86,7 +86,7 @@ class App extends React.Component {
       createItem:  withLoading(async (data,categoryID)=>{
         const newID = ID()
         const parsedDate = parse2YearAndMonth(data.date)
-        data.monthCategory = `${parsedDate.yaer}-${parsedDate.month}`
+        data.monthCategory = `${parsedDate.year}-${parsedDate.month}`
         data.timestamp = new Date(data.date).getTime()
 
        
