@@ -67,7 +67,6 @@ class App extends React.Component {
         }
 
         const [ fetchedCategories , editItem] = await Promise.all(promiseArr)
-        console.log(fetchedCategories)
         const finalCategories = fetchedCategories ? flattenArray(fetchedCategories.data) : categories
         const finalItem = editItem ? editItem.data : items[id]
         if (id) {
